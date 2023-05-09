@@ -5,7 +5,10 @@ class Player extends Phaser.GameObjects.Sprite{
     }
     update(){
         if(Phaser.Input.Keyboard.JustDown(keyUP)){
-            console.log('bueno')
+            this.y -= 100;
+        }
+        if(Phaser.Input.Keyboard.JustDown(keyDOWN)){
+            this.y += 100;
         }
     }
 }
