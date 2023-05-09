@@ -3,7 +3,6 @@ class Start extends Phaser.Scene{
         super('startScene');
     }
     preload(){
-
     }
     create(){
         let menuConfig = {
@@ -16,10 +15,19 @@ class Start extends Phaser.Scene{
             fixedWidth: 0
             
         }
-        this.add.text(game.config.width/2,game.config.height-2, "Endless Runner", menuConfig);
-        
+        console.log('running');
+        this.add.text(game.config.width/2 - 100,game.config.height/2 - 100, "Endless Runner", menuConfig);
+        this.add.text(game.config.width/2, game.config.height/2, "Use ↑↓ arrows to move", menuConfig).setOrigin(0.5);
+        menuConfig.backgroundColor = '#00FF00';
+        menuConfig.color = '#000';
+        this.add.text(game.config.width/2, game.config.height/2 + borderUISize + borderPadding, "Press ← for Novice or → for Expert", menuConfig).setOrigin(0.5);
+        keyUP = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.UP);
+        keyDOWN = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.DOWN);
+        keyENTER = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.ENTER);
     }
     update(){
-
+        if(Phaser.Input.Keyboard.JustDown(keyENTER)){
+            this.scene.start('playScene');
+        }
     }
 }
