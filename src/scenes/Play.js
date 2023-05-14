@@ -7,42 +7,76 @@ class Play extends Phaser.Scene{
         this.load.image('platform', './assets/Platform.png');
         this.load.image('background', './assets/NewBackground.png');
         this.load.image('space', './assets/starfield_background.png');
+        this.load.image('laser', './assets/laser.png');
     }
     create(){
+        this.laserSpeed = this.game.settings.gameSpeed * -100;
         this.space = this.add.tileSprite(0,0,800,600,'space').setOrigin(0,0);
         this.background = this.add.tileSprite(0,0,800,400,'background').setOrigin(0,0);
         //PlayerProps
-        player = this.physics.add.sprite(32, centerY, 'player').setOrigin(1);
-        player.setCollideWorldBounds(true);
-        player.setBounce(0);
-        player.setImmovable();
-        player.setMaxVelocity(0,500);
-        player.setDragY(100);
-        player.setDepth(1);
-        player.destroyed = false;
-        player.setBlendMode('SCREEN');
-        player.onCollide = true;
+        player = this.physics.add.sprite(centerX, centerY, 'player').setOrigin(100,0);
+        {
+            player.setCollideWorldBounds(true);
+            player.setBounce(0);
+            player.setImmovable();
+            player.setMaxVelocity(0,500);
+            player.setDragY(100);
+            player.setDepth(1);
+            player.destroyed = false;
+            player.setBlendMode('SCREEN');
+            player.onCollide = true;
+        }
+        //LaserProps
+        this.laserGroup = this.add.group({
+            runChildUpdate: true
+        });
         //this.enemy = new Enemy(this, 550, 400, 'player').setOrigin(0,0);
-       
+        this.physics.world.on('overlap', (player, laser, body1, body2)=>{player.destroyed = true;});
         keyUP = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.UP);
         keyDOWN = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.DOWN);
-        this.spawnTimer = 120;
-    }
+        this.spawnTimer = initSpawnTime;
+        };
+        // this.game.config.width, Phaser.Math.Between(30, 370), 'laser').setOrigin(0,0)
+    
     update(){
         if(!player.destroyed){
             if(Phaser.Input.Keyboard.JustDown(keyUP)){
-               //this.physics.gravity = {x: 0, y: -200}
+               player.body.setGravityY(-1500);
             }
             if(Phaser.Input.Keyboard.JustDown(keyDOWN)){
-                this.physics.arcade.setGravityY(200);
+                player.body.setGravityY(1500);
             }
         }
         this.spawnTimer -=1;
         if(this.spawnTimer <= 0){
-
+            counter +=1;
+            survivalTime +=1;
+            if(counter %5 == 0){
+                
+                initSpawnTime -= 60;
+                this.game.settings.gameSpeed +=1;
+            }
+            this.spawnLaser();
+            //this.laserGroup.add(laser);
+            this.spawnTimer = initSpawnTime;
         }
-        this.physics.collide(player, this.platform, console.log('hit'))
+        this.physics.world.collide(player, this.laserGroup, this.playerCollision, null, this);
         this.background.tilePositionX += 1;
+        this.space.tilePositionX +=3;
         this.spawnTimer -= 1;
+    }
+    spawnLaser(){
+        laser = this.physics.add.sprite(game.config.width + laserWidth, Phaser.Math.Between(laserHeight/2, game.config.height - laserHeight/2),'laser').setOrigin(0,0);
+        {
+            laser.setVelocityX(this.laserSpeed);
+            laser.setImmovable();
+        }
+        this.laserGroup.add(laser);
+    }
+    playerCollision(){
+        player.destroyed = true;
+        player.destroy();
+        this.time.delayedCall(1000, () => {
+            this.laserGroup.setVelocityX(0)});
     }
 }

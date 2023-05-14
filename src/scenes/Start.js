@@ -28,8 +28,7 @@ class Start extends Phaser.Scene{
     update(){
         if(Phaser.Input.Keyboard.JustDown(keyENTER)){
             this.game.settings = {
-                gameSpeed: 1,
-                timer: 0
+                gameSpeed: 4,
             }
             this.scene.start('playScene');
         }
