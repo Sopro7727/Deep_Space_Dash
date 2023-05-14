@@ -6,11 +6,15 @@
 let config = {
     type: Phaser.CANVAS,
     width: 800,
-    height: 800,
+    height: 400,
     physics:{
         default: "arcade",
         arcade: {
-            debug: true
+            debug: true,
+            gravity: {
+                x:0,
+                y:200
+            }
         }
     },
     backgroundColor: 'white',
@@ -22,3 +26,7 @@ let borderPadding = borderUISize/2;
 let score = 0;
 let keyUP, keyDOWN, keyENTER;
 let centerX = game.config.width/2;
+let centerY = game.config.height/2;
+let isMovingU = false, isMovingD = false;
+let player = null;
+let playerVelocity = 500;

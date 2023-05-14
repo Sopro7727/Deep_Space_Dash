@@ -1,14 +1,22 @@
-class Player extends Phaser.GameObjects.Sprite{
+/*class Player extends Phaser.GameObjects.Sprite{
     constructor(scene, x,y,texture,frame){
         super(scene, x,y,texture,frame);
-        scene.add.existing(this);
+        this.parentScene = scene;
+        this.parentScene.add.existing(this);
+        this.parentScene.physics.add.existing(this);
     }
     update(){
         if(Phaser.Input.Keyboard.JustDown(keyUP)){
-            this.y -= 100;
+            isMovingU = true;
+        }
+        if(isMovingU == true){
+            this.y -= 5;
         }
         if(Phaser.Input.Keyboard.JustDown(keyDOWN)){
-            this.y += 100;
+            isMovingD = true;
+        }
+        if(isMovingD == true){
+            this.y -= 5;
         }
     }
-}
+}*/
