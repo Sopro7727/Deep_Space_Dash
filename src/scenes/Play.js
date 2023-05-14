@@ -10,6 +10,10 @@ class Play extends Phaser.Scene{
         this.load.image('laser', './assets/laser.png');
     }
     create(){
+        launch = this.sound.add('launch', {volume: 0.5});
+        shot = this.sound.add('laserShot', {volume: 0.5});
+        death = this.sound.add('boom', {volume: 0.5});
+        launch.play();
         this.laserSpeed = this.game.settings.gameSpeed * -100;
         this.space = this.add.tileSprite(0,0,800,600,'space').setOrigin(0,0);
         this.background = this.add.tileSprite(0,0,800,400,'background').setOrigin(0,0);
@@ -39,6 +43,9 @@ class Play extends Phaser.Scene{
         // this.game.config.width, Phaser.Math.Between(30, 370), 'laser').setOrigin(0,0)
     
     update(){
+        if(!backgroundMusic.isPlaying){
+            backgroundMusic.play();
+        }
         if(!player.destroyed){
             if(Phaser.Input.Keyboard.JustDown(keyUP)){
                player.body.setGravityY(-1000);
@@ -72,10 +79,12 @@ class Play extends Phaser.Scene{
             laser.setVelocityX(this.laserSpeed);
             laser.setImmovable();
         }
+        shot.play();
         this.laserGroup.add(laser);
     }
     playerCollision(){
         player.destroyed = true;
+        death.play();
         player.destroy();
         this.time.delayedCall(1000, () => {
             this.laserGroup.setVelocityX(0)});

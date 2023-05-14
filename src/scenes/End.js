@@ -15,10 +15,11 @@ class End extends Phaser.Scene{
         }
         console.log('running');
         this.add.text(game.config.width/2 - 100,game.config.height/2 - 100, "You Died", menuConfig);
-        this.add.text(game.config.width/2, game.config.height/2, `Hit R to Restart\n\n\nTime: ${survivalTime}`, menuConfig).setOrigin(0.5);
+        this.add.text(game.config.width/2, game.config.height/2+100, `Hit R to Restart \nor \nhit C to see Credits\n\n\nTime: ${survivalTime}`, menuConfig).setOrigin(0.5);
         menuConfig.backgroundColor = '#00FF00';
         menuConfig.color = '#000';
         keyR = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.R);
+        keyC = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.C);
         console.log(survivalTime);
     }
     update(){
@@ -30,6 +31,10 @@ class End extends Phaser.Scene{
                 this.game.settings.gameSpeed = 4;
             }
             this.scene.start('playScene')
+        }
+        if(Phaser.Input.Keyboard.JustDown(keyC)){
+            console.log('credits')
+            this.scene.start('creditsScene')
         }
     }
 }
