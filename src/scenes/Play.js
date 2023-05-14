@@ -14,10 +14,10 @@ class Play extends Phaser.Scene{
         this.space = this.add.tileSprite(0,0,800,600,'space').setOrigin(0,0);
         this.background = this.add.tileSprite(0,0,800,400,'background').setOrigin(0,0);
         //PlayerProps
-        player = this.physics.add.sprite(centerX, centerY, 'player').setOrigin(100,0);
+        player = this.physics.add.sprite(80, centerY, 'player').setOrigin(0,0);
         {
             player.setCollideWorldBounds(true);
-            player.setBounce(0);
+            player.setBounce(0.5);
             player.setImmovable();
             player.setMaxVelocity(0,500);
             player.setDragY(100);
@@ -41,10 +41,10 @@ class Play extends Phaser.Scene{
     update(){
         if(!player.destroyed){
             if(Phaser.Input.Keyboard.JustDown(keyUP)){
-               player.body.setGravityY(-1500);
+               player.body.setGravityY(-1000);
             }
             if(Phaser.Input.Keyboard.JustDown(keyDOWN)){
-                player.body.setGravityY(1500);
+                player.body.setGravityY(1000);
             }
         }
         this.spawnTimer -=1;
@@ -52,8 +52,9 @@ class Play extends Phaser.Scene{
             counter +=1;
             survivalTime +=1;
             if(counter %5 == 0){
-                
-                initSpawnTime -= 60;
+                if(initSpawnTime > 120){
+                    initSpawnTime -= 60;
+                }
                 this.game.settings.gameSpeed +=1;
             }
             this.spawnLaser();
@@ -78,5 +79,6 @@ class Play extends Phaser.Scene{
         player.destroy();
         this.time.delayedCall(1000, () => {
             this.laserGroup.setVelocityX(0)});
+        this.time.delayedCall(750, () => {this.scene.start('endScene')});
     }
 }
