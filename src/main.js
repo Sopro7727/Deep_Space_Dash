@@ -1,7 +1,7 @@
 /* 
     Noah Walker
-    Endless Runner Name:
-    Hours Spent(ish): 15
+    Endless Runner Name: Deep Space Dash
+    Hours Spent(ish): 22 hours
     Creative Tilt Justification:
         Technically interesting: I spent too long trying to figure out how to use gravity as a means of movement rather than velocitym, and I think it adds a good challenge to the game
         Creative Aspect: I'm very proud of the music that I put together for this game. I think it changes the whole atmosphere comapred to the silence.
