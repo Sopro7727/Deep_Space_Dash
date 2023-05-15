@@ -3,11 +3,12 @@ class Play extends Phaser.Scene{
         super("playScene");
     }
     preload(){
-        this.load.image('player', './assets/tempPlayer.png');
+        
         this.load.image('platform', './assets/Platform.png');
         this.load.image('background', './assets/NewBackground.png');
         this.load.image('space', './assets/starfield_background.png');
         this.load.image('laser', './assets/laser.png');
+        this.load.spritesheet('player', './assets/Player.png', {frameWidth: 32, frameHeight: 32, startFrame: 0, endFrame: 6});
     }
     create(){
         launch = this.sound.add('launch', {volume: 0.5});
@@ -18,7 +19,7 @@ class Play extends Phaser.Scene{
         this.space = this.add.tileSprite(0,0,800,600,'space').setOrigin(0,0);
         this.background = this.add.tileSprite(0,0,800,400,'background').setOrigin(0,0);
         //PlayerProps
-        player = this.physics.add.sprite(80, centerY, 'player').setOrigin(0,0);
+        player = this.physics.add.sprite(80, centerY, 'player', 0).setOrigin(0,0);
         {
             player.setCollideWorldBounds(true);
             player.setBounce(0.5);
@@ -39,6 +40,13 @@ class Play extends Phaser.Scene{
         keyUP = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.UP);
         keyDOWN = this.input.keyboard.addKey(Phaser.Input.Keyboard.KeyCodes.DOWN);
         this.spawnTimer = initSpawnTime;
+        /*this.anims.create({
+            key: 'ship',
+            frames: this.anims.generateFrameNumbers('ship', {start: 1, end: 7}),
+            frameRate: 30,
+            repeat: 1
+        })
+        */
         };
         // this.game.config.width, Phaser.Math.Between(30, 370), 'laser').setOrigin(0,0)
     
@@ -48,7 +56,7 @@ class Play extends Phaser.Scene{
         }
         if(!player.destroyed){
             if(Phaser.Input.Keyboard.JustDown(keyUP)){
-               player.body.setGravityY(-1000);
+                player.body.setGravityY(-1000);
             }
             if(Phaser.Input.Keyboard.JustDown(keyDOWN)){
                 player.body.setGravityY(1000);
