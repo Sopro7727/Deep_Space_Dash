@@ -7,7 +7,7 @@ class Play extends Phaser.Scene{
         this.load.image('platform', './assets/Platform.png');
         this.load.image('background', './assets/NewBackground.png');
         this.load.image('space', './assets/starfield_background.png');
-        this.load.image('laser', './assets/laser.png');
+        this.load.image('laser', './assets/Laser.png');
         this.load.spritesheet('player', './assets/Player.png', {frameWidth: 32, frameHeight: 32, startFrame: 0, endFrame: 6});
     }
     create(){
